@@ -6,9 +6,8 @@ const { NODE_ENV } = require('./config')
 const workoutsRouter = require('./workouts/workouts-router')
 const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
-const app = express()
 
-app.use(cors());
+const app = express()
 
 app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
   skip: () => NODE_ENV === 'test',
