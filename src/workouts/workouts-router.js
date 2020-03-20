@@ -17,7 +17,7 @@ workoutsRouter
   })
 
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
-    const { name, sets, reps, weight, date } = req.body
+    const { name, sets=false, reps=false, weight=false, date } = req.body
     const newWorkout = { name, sets, reps, weight, date }
 
     if (name == null)
@@ -48,7 +48,7 @@ workoutsRouter
     res.json(WorkoutsService.serializeWorkout(res.workout))
   })
   .put(requireAuth, jsonBodyParser, (req, res, next) => {
-    const { name, sets, reps, weight, date } = req.body
+    const { name, sets=false, reps=false, weight=false, date } = req.body
     const newWorkout = { name, sets, reps, weight, date }
     newWorkout.user_id = req.user.id
 
@@ -77,7 +77,7 @@ workoutsRouter
         res
           .status(200)
           .location(path.posix.join(req.originalUrl, `/${workout.id}`))
-          .json(WorkoutsService.serializeWorkout(workout))
+          .json(WorkoutsService.serializeWorkout(workout)).end()
       })
       .catch(next)
   })
