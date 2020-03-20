@@ -15,10 +15,15 @@ app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
 app.use(cors())
 app.use(helmet())
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://frozen-crag-79266.herokuapp.com/"); 
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use('/api/workouts', workoutsRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
-
 
 app.use(function errorHandler(error, req, res, next) {
   let response
