@@ -12,7 +12,9 @@ const app = express()
 app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
   skip: () => NODE_ENV === 'test',
 }))
-app.use(cors())
+app.use(cors({
+  origin: 'https://frozen-crag-79266.herokuapp.com/'
+}));
 app.use(helmet())
 
 app.use(function(req, res, next) {
