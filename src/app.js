@@ -8,18 +8,7 @@ const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
 const app = express()
 
-let whitelist = ['https://frozen-crag-79266.herokuapp.com/'];
-let corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
   skip: () => NODE_ENV === 'test',
@@ -32,9 +21,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/api/workouts', workoutsRouter)
-app.use('/api/auth', authRouter)
-app.use('/api/users', usersRouter)
+app.use('/api/workouts', cors(), workoutsRouter)
+app.use('/api/auth', cors(), authRouter)
+app.use('/api/users',cors(), usersRouter)
 
 app.use(function errorHandler(error, req, res, next) {
   let response
