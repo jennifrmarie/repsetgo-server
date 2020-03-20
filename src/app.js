@@ -1,32 +1,30 @@
 const express = require('express')
 const morgan = require('morgan')
-//const cors = require('cors')
+const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const workoutsRouter = require('./workouts/workouts-router')
 const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
-
 const app = express()
+
+let whitelist = ['https://frozen-crag-79266.herokuapp.com/'];
+let corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.use(cors(corsOptions));
 
 app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
   skip: () => NODE_ENV === 'test',
 }))
-var allowedOrigins = ['http://localhost:8000',
-                      'https://frozen-crag-79266.herokuapp.com/'];
-app.use(cors({
-  origin: function(origin, callback){
-    // allow requests with no origin 
-    // (like mobile apps or curl requests)
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
-      var msg = 'The CORS policy for this site does not ' +
-                'allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  }
-}));
+
 app.use(helmet())
 
 app.use(function(req, res, next) {
