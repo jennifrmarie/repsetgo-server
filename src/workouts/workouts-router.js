@@ -20,10 +20,16 @@ workoutsRouter
     const { name, sets=false, reps=false, weight=false, date } = req.body
     const newWorkout = { name, sets, reps, weight, date }
 
-    if (name == null)
-      return res.status(400).json({
-        error: `Missing name in request body`
-      })
+    for (const field of ['name'])
+      if (!req.body[field])
+        return res.status(400).json({
+          error: `Missing '${field}' in request body.`
+        })
+
+    const nameError = WorkoutsService.validateName(name)
+
+    if (nameError)
+      return res.status(400).json({ error: nameError })
 
     newWorkout.user_id = req.user.id
 

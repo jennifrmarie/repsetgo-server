@@ -25,6 +25,14 @@ const WorkoutsService = {
       )
   },
 
+  validateName(name) {
+    if (name.length === 0) {
+      return 'name is required'
+    }
+  },
+
+
+
   updateWorkout(db, id, workout) {
     console.log(id)
     console.log(workout)
