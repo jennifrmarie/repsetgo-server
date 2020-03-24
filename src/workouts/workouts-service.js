@@ -1,7 +1,7 @@
 const xss = require('xss')
 
 const WorkoutsService = {
-  getAllWorkouts(db) {
+  getAllWorkouts(db, userId) {
     return db
       .from('reppy_workouts AS item')
       .select(
@@ -12,6 +12,9 @@ const WorkoutsService = {
         'item.weight',
         'item.date',
       )
+      .where({
+        user_id: userId
+      })
   },
 
   insertWorkout(db, newWorkout) {
@@ -34,13 +37,9 @@ const WorkoutsService = {
 
 
   updateWorkout(db, id, workout) {
-    console.log(id)
-    console.log(workout)
     sql = db("reppy_workouts")
       .where({id:id})
       .update(workout)
-
-    console.log(sql.toString())
       return sql;
   },
 
@@ -52,7 +51,16 @@ const WorkoutsService = {
   },
 
   getById(db, id) {
-    return WorkoutsService.getAllWorkouts(db)
+    return db
+      .from('reppy_workouts AS item')
+      .select(
+        'item.id',
+        'item.name',
+        'item.sets',
+        'item.reps',
+        'item.weight',
+        'item.date',
+      )
       .where('item.id', id)
       .first()
   },

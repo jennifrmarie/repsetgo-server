@@ -8,15 +8,15 @@ const workoutsRouter = express.Router()
 
 workoutsRouter
   .route('/')
-  .get((req, res, next) => {
-    WorkoutsService.getAllWorkouts(req.app.get('db'))
+  .get(requireAuth, (req, res, next) => {
+    WorkoutsService.getAllWorkouts(req.app.get('db'), req.user.id)
       .then(workouts => {
         res.json(workouts.map(WorkoutsService.serializeWorkout))
       })
       .catch(next)
   })
 
-  .post(requireAuth, jsonBodyParser, (req, res, next) => {
+  .post(requireAuth,jsonBodyParser, (req, res, next) => {
     const { name, sets, reps, weight, date } = req.body
     const newWorkout = { name, sets, reps, weight, date }
 
