@@ -17,19 +17,21 @@ workoutsRouter
   })
 
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
-    const { name, sets=false, reps=false, weight=false, date } = req.body
+    const { name, sets, reps, weight, date } = req.body
     const newWorkout = { name, sets, reps, weight, date }
 
-    for (const field of ['name'])
-      if (!req.body[field])
+    for (const [key, value] of Object.entries(newWorkout)) {
+      if (value == null) {
         return res.status(400).json({
-          error: `Missing '${field}' in request body.`
-        })
+          error: { message: `Missing '${key}' in request body` }
+        });
+      }
+    }
 
     const nameError = WorkoutsService.validateName(name)
 
-    if (nameError)
-      return res.status(400).json({ error: nameError })
+    // if (nameError)
+    //   return res.status(400).json({ error: {message:nameError} })
 
     newWorkout.user_id = req.user.id
 
