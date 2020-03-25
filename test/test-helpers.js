@@ -12,14 +12,12 @@ function makeUsersArray() {
     {
       id: 2,
       user_name: 'test-user-2',
-      full_name: 'Test user 2',
       password: 'password',
       date: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
       id: 3,
       user_name: 'test-user-3',
-      full_name: 'Test user 3',
       password: 'password',
       date: new Date('2029-01-22T16:28:32.615Z'),
     },
@@ -76,15 +74,13 @@ function makeExpectedWorkout(users, workout) {
 
   return {
     id: workout.id,
-    style: workout.style,
-    title: workout.title,
-    content: workout.content,
+    reps: workout.reps,
+    sets: workout.sets,
+    weight: workout.weight,
     date: workout.date.toISOString(),
     author: {
       id: author.id,
       user_name: author.user_name,
-      full_name: author.full_name,
-      nickname: author.nickname,
       date: author.date.toISOString(),
       date_modified: author.date_modified || null,
     },
@@ -95,16 +91,18 @@ function makeExpectedWorkout(users, workout) {
 function makeMaliciousWorkout(user) {
   const maliciousWorkout = {
     id: 911,
-    style: 'How-to',
+    reps: 'How-to',
+    sets: 3,
+    weight: 124,
     date: new Date(),
-    title: 'Naughty naughty very naughty <script>alert("xss");</script>',
+    name: 'Naughty naughty very naughty <script>alert("xss");</script>',
     author_id: user.id,
-    content: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
+    // content: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
   }
   const expectedWorkout = {
     ...makeExpectedWorkout([user], maliciousWorkout),
     title: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;',
-    content: `Bad image <img src="https://url.to.file.which/does-not.exist">. But not <strong>all</strong> bad.`,
+    name: `Bad image <img src="https://url.to.file.which/does-not.exist">. But not <strong>all</strong> bad.`,
   }
   return {
     maliciousWorkout,

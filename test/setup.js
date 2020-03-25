@@ -6,7 +6,7 @@ process.env.JWT_EXPIRY = '3m'
 require('dotenv').config()
 
 process.env.TEST_DB_URL = process.env.TEST_DB_URL
-  || "postgresql://postgres:poop@localhost/reppy-auth-test"
+  || "postgresql://postgres:poop@localhost/reppysetgo_test"
 
 const { expect } = require('chai')
 const supertest = require('supertest')
