@@ -1,31 +1,24 @@
-# reppy API Auth!
+# Reppy, Set, GO!
+*an app that allows gym-goers to keep track of the weight they lift*
 
-## Scripts
+[Live App](https://reppysetgo.herokuapp.com/dashboard)
 
-Start the application `npm start`
+An app where a user can create an account and keep track of their
+workouts past and present. The user can click on a specific date which then directs them 
+to a form where they can log in a workout that they already did or one that they wish to do 
+at a future date and can either delete or edit the details later. <br />
+**ReactJS, NodeJS, Postgresql, CSS**
 
-Start nodemon for the application `npm run dev`
+<img src="https://user-images.githubusercontent.com/53023612/77572179-e8f0ab80-6ea4-11ea-857c-65548d96a7e8.png"/>
+<img src="https://user-images.githubusercontent.com/53023612/77571550-ee99c180-6ea3-11ea-8a9f-08a8b978669b.jpg"/>
+<img src="https://user-images.githubusercontent.com/53023612/77572010-a4fda680-6ea4-11ea-9f7d-49aef45b7bc4.png"/>
 
-Run the tests in watch mode `npm test`
+API Documentation: 
+https://boiling-ridge-17775.herokuapp.com
 
-Migrate the dev database `npm run migrate`
+endpoints:
+api/workouts/ -->  client shows form where user can post their workouts
+api/users/ --> user is able to create and account
+api/auth/ --> user can log in to account after it's been created
 
-Migrate the test database `npm run migrate:test`
-
-## Configuring Postgres
-
-For tests involving time to run properly, configure your Postgres database to run in the UTC timezone.
-
-1. Locate the `postgresql.conf` file for your Postgres installation.
-   1. E.g. for an OS X, Homebrew install: `/usr/local/var/postgres/postgresql.conf`
-   2. E.g. on Windows, _maybe_: `C:\Program Files\PostgreSQL\11.2\data\postgresql.conf`
-2. Find the `timezone` line and set it to `UTC`:
-
-```conf
-# - Locale and Formatting -
-
-datestyle = 'iso, mdy'
-#intervalstyle = 'postgres'
-timezone = 'UTC'
-#timezone_abbreviations = 'Default'     # Select the set of available time zone
-```
+[Client Repo](https://github.com/jennifrmarie/reppysetgo.git)
